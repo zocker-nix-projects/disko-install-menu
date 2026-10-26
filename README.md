@@ -110,15 +110,31 @@ For example, this could look like:
     # … (e.g. nixpkgs)
     disko-install-menu = {
       url = "github:zocker-nix-projects/disko-install-menu";
-      # this is recommended to do (I will NOT regularly update the flake.lock)
-      # (& should hopefully not introduce any errors)
+      # this is recommended to do & should hopefully not introduce any errors
+      # if you get errors building against current nixos-stable channel, pls report issue
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 }
 ```
 
+#### Hint on Automatic Upgrades and Test Infrastructure
+
 The `main` branch is expected to be as stable as possible.
+However because the flake is locked to `nixos-unstable`,
+using it without `input.nixpkgs.follows` is not recommended
+for any production-like use.
+
+The `flake.lock` of this repo is auto-updated by Dependabot,
+guarded by comprehensive NixOS integration tests,
+which are extended whenever they miss a class of errors.
+Dependabot updates against the `nixos-unstable` channel
+to increase the chance of me catching backwards-incompatible changes
+in an upcoming NixOS release before that is published.
+
+The repo is not yet automatically tested against the current nixos-stable channel,
+through most errors should be catched by my own server configuration,
+see https://github.com/Zocker1999NET/server.
 
 ### Configure Live-Bootable NixOS Configuration + disko-install-menu
 
