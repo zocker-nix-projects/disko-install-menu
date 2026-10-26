@@ -41,10 +41,8 @@ jobs:
 
       - name: Push to cache
         # push needs secrets; they are only available for same-repo events.
-        if: >
-          github.repository_owner == 'zocker-nix-projects' &&
-          (github.event_name != 'pull_request' ||
-           github.event.pull_request.head.repo.full_name == github.repository)
+        # action itself also skips gracefully when the secrets are missing.
+        if: github.repository_owner == 'zocker-nix-projects'
         uses: ./.github/actions/push-to-cache
         with:
           paths: ${{ steps.build.outputs.paths }}

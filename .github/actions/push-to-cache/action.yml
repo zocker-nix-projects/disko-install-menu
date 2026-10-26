@@ -25,6 +25,14 @@ runs:
         CACHIX_SIGNING_KEY: ${{ inputs.signingKey }}
       run: |
         set -euo pipefail
+
+        # Skip the upload (without failing) when credentials are missing,
+        # e.g. on externally triggered PR runs where the secrets are not injected.
+        if [[ -z "${CACHIX_AUTH_TOKEN}" || -z "${CACHIX_SIGNING_KEY}" ]]; then
+          echo "::warning::Skipping cache upload: CACHIX_AUTH_TOKEN or CACHIX_SIGNING_KEY not available (PR event without credentials)."
+          exit 0
+        fi
+
         # cachix expects the raw base64 secret key, so strip the "name-1:" prefix if present
         export CACHIX_SIGNING_KEY="${CACHIX_SIGNING_KEY#*:}"
         cachix push "${{ inputs.cache }}" ${{ inputs.paths }}
