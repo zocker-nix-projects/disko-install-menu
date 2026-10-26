@@ -171,6 +171,8 @@ this could look like this (not tested, please report your success / issues):
           {
             programs.disko-install-menu = {
               enable = true;
+              autoStart = true; // launch menu after boot
+              debugMode = false; // whether to auto-start menu inside tmux session
               listedFlakes.default = {
                 isDefaultFlake = true;
                 # set those to your liking
@@ -205,9 +207,10 @@ Your ISO will then be available as `result/iso/*.iso` (the only ISO) in that dir
 I assume you will get this working somehow,
 e.g. see the awesome [ArchWiki](https://wiki.archlinux.org/title/USB_flash_installation_medium) for an exhaustive list of possibilities.
 
-Be aware that in the current version,
-the module cannot yet auto-start the installer (feel free to make a PR),
-so, as of now, you need to type the following (with auto-completion) to start the menu:
+If you enabled the `.autoStart` option,
+the menu should pop up immediately after boot.
+Otherwise, to start the menu (possibly with auto-completion),
+you can type:
 ```bash
 sudo disko-install-menu
 ```
