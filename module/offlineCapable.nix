@@ -89,7 +89,7 @@ let
               str
               (raw // { description = "flake attrset"; })
             ]);
-          default = false;
+          default = null;
           example = literalExample "inputs.disko-install-menu";
         };
 
